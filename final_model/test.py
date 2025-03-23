@@ -15,7 +15,6 @@ def evaluate_test_data(model, merged_test_df):
              'Assortment_b', 'Assortment_c']
     X_test = test_fe.drop(columns=[col for col in drop_cols if col in test_fe.columns], errors='ignore')
     X_test = X_test.select_dtypes(include=[np.number])
-    print(X_test.columns)
     return model.predict(X_test)
 
 # Load and merge external test data
@@ -30,4 +29,6 @@ pred = evaluate_test_data(model, external_merged)
 
 # Create submission file
 submission_df = pd.DataFrame({'Id': external_merged['Id'], 'Sales': np.expm1(pred)})
-submission_df.to_csv('submission.csv', index=False)
+submission_df.to_csv('./results/submission.csv', index=False)
+
+print("Testing Completed. Submission.csv stored in the results folder")

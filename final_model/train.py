@@ -26,7 +26,7 @@ sns.set(style="whitegrid")
 # Function: load_data
 # Loads train and store data from CSV files.
 #########################################
-def load_data(train_path='train.csv', store_path='store.csv'):
+def load_data(train_path='../dataset/train.csv', store_path='../dataset/store.csv'):
     """
     Loads the Rossmann train and store datasets.
     Args:
@@ -137,16 +137,16 @@ def feature_engineering(df):
         # Log-transform
         rfm[['Recency', 'Frequency', 'Monetary']] = np.log1p(rfm[['Recency', 'Frequency', 'Monetary']])
         # Save RFM and ref_date to disk to enforce training-first dependency
-        rfm.to_csv('rfm_features.csv', index=False)
-        with open('ref_date.txt', 'w') as f:
+        rfm.to_csv('./model_cache_files/rfm_features.csv', index=False)
+        with open('./model_cache_files/ref_date.txt', 'w') as f:
           f.write(str(ref_date))  # Convert Timestamp to string
         # Merge RFM
         df = pd.merge(df, rfm, on='Store', how='left')
     else:
         # For test data: enforce that RFM features and ref_date exist
         try:
-            rfm = pd.read_csv('rfm_features.csv')
-            with open('ref_date.txt', 'r') as f:
+            rfm = pd.read_csv('./model_cache_files/rfm_features.csv')
+            with open('./model_cache_files/ref_date.txt', 'r') as f:
               ref_date = pd.to_datetime(f.read().strip())  # Read string and convert to Timestamp
         except FileNotFoundError:
             raise RuntimeError("RFM features not found. Train the model first to generate RFM features.")
@@ -324,7 +324,7 @@ def main():
     print("Evaluating the model...")
     evaluate_model(model, X_test, y_test)
 
-    model.save_model('xgb_rossmann_model.json')
+    model.save_model('./model_weights/xgb_rossmann_model.json')
     print("Model saved to xgb_rossmann_model.json")
 
     # # Evaluate on the external test set from test.csv
