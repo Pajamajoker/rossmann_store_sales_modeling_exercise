@@ -1,8 +1,13 @@
-# File: test_pipeline.py
+"""
+Author: Prathmesh Joshi
+Course: Machine Learning
+"""
+
 import pandas as pd
 import numpy as np
 import xgboost as xgb
 from train import preprocess_data, feature_engineering
+
 def evaluate_test_data(model, merged_test_df):
     """Applies preprocessing and feature engineering to test data."""
     # Apply preprocessing and feature engineering
