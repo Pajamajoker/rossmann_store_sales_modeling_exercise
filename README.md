@@ -43,6 +43,7 @@ This repository contains the code, datasets, and models for forecasting daily sa
    ```
 
 ## Usage
+### Running and testing the script is simple! Simple follow below steps
 
 ### Training the Model
 
